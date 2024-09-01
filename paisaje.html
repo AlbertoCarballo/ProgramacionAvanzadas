@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      canvas {
+        border: 1px solid black;
+        display: block;
+        margin: auto;
+        background-color: #f0f0f0;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="paisaje" width="2000" height="1500"></canvas>
+
+    <script>
+      const canvas = document.getElementById("paisaje");
+      const ctx = canvas.getContext("2d");
+
+      ctx.fillStyle = "#00dbfd";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = "rgba(255,255,0,0.8)";
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(750, 1400);
+      ctx.lineTo(1300, 400);
+      ctx.lineTo(1150, 400);
+      ctx.closePath();
+      ctx.stroke();
+      ctx.fill();
+
+      ctx.fillStyle = "yellow";
+      ctx.beginPath();
+      ctx.arc(0, 0, 200, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.stroke();
+      
+      ctx.fillStyle = "#24da00";
+      ctx.strokeStyle = "green";
+      ctx.beginPath();
+      ctx.arc(100, 1350, 90, 0, 2 * Math.PI);
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.arc(300, 1350, 90, 0, 2 * Math.PI);
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.arc(200, 1350, 120, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.fillStyle = "green";
+      ctx.fillRect(0, 1400, canvas.width, 100);
+
+      ctx.fillStyle = "rgba(0,0,0,0.3";
+      ctx.beginPath();
+      ctx.moveTo(1200, 390);
+      ctx.lineTo(1300, 450);
+      ctx.lineTo(2400, 1600);
+      ctx.lineTo(1500, 1500);
+      ctx.closePath();
+      ctx.fill();
+
+      ctx.fillStyle = "#1f222a";
+      // ctx.fillStyle = "#7793b8";
+      ctx.fillRect(780, 710, 700, 600);
+      ctx.fillStyle = "#7793b8";
+      ctx.fillRect(800, 730, 680, 580);
+
+      ctx.fillStyle = "grey";
+      ctx.fillRect(700, 1310, 850, 90);
+
+      ctx.fillStyle = "white";
+      ctx.fillRect(1200, 960, 200, 350);
+
+      ctx.fillStyle = "#8e3513";
+      ctx.fillRect(1205, 965, 190, 340);
+
+      ctx.fillStyle = "white";
+      ctx.fillRect(880, 830, 250, 190);
+
+      ctx.fillStyle = "rgba(95,95,95, 0.4)";
+      ctx.fillRect(890, 835, 230, 180);
+
+      ctx.fillStyle = "white";
+      ctx.fillRect(1000, 835, 10, 180);
+
+      ctx.fillStyle = "yellow";
+      ctx.beginPath();
+      ctx.arc(1370, 1130, 15, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.stroke();
+
+      //#8e3513
+      ctx.fillStyle = "#3e4381";
+      ctx.beginPath();
+      ctx.moveTo(700, 710);
+      ctx.lineTo(900, 410);
+      ctx.lineTo(1550, 710);
+      ctx.closePath();
+      ctx.stroke();
+      ctx.fill();
+
+      ctx.fillStyle = "white";
+      ctx.beginPath();
+      ctx.arc(100, 0, 90, 0, 2 * Math.PI);
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.arc(300, 0, 90, 0, 2 * Math.PI);
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.arc(200, 0, 120, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.beginPath();
+
+      ctx.arc(0, 200, 90, 0, 2 * Math.PI);
+      ctx.fill();
+
+      ctx.fillStyle = "grey";
+      ctx.beginPath();
+      ctx.moveTo(1150, 525);
+      ctx.lineTo(1300, 595);
+      ctx.lineTo(1300, 400);
+      ctx.lineTo(1150, 400);
+      ctx.closePath();
+      ctx.stroke();
+      ctx.fill();
+
+      ctx.fillStyle = "grey";
+      ctx.fillRect(1125, 390, 200, 50);
+    </script>
+  </body>
+</html>
