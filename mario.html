@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      canvas {
+        border: 1px solid black;
+        display: block;
+        margin: auto;
+        background-color: #f0f0f0;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="mario" width="2000" height="1500"></canvas>
+
+    <script>
+      const canvas = document.getElementById("mario");
+      const ctx = canvas.getContext("2d");
+
+      ctx.fillStyle = "rgba(168, 234, 252, 1)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = "black";
+      ctx.fillRect(-30, 400, 120, 120);
+      ctx.fillStyle = "rgba(253, 134, 94, 1)";
+      ctx.fillRect(-25, 405, 110, 110);
+
+      ctx.fillStyle = "black";
+      ctx.fillRect(1200, 100, 120, 120);
+      ctx.fillStyle = "rgba(253, 134, 94, 1)";
+      ctx.fillRect(1205, 105, 110, 110);
+
+      ctx.fillStyle = "black";
+      ctx.fillRect(600, 400, 120, 120);
+      ctx.fillStyle = "rgba(253, 134, 94, 1)";
+      ctx.fillRect(605, 405, 110, 110);
+
+      ctx.fillStyle = "black";
+      ctx.fillRect(710, 400, 120, 120);
+      ctx.fillStyle = "rgba(253, 134, 94, 1)";
+      ctx.fillRect(715, 405, 110, 110);
+
+      ctx.fillStyle = "rgba(245, 191, 177, 1)";
+      ctx.fillRect(0, 1250, canvas.width, 100);
+      ctx.fillStyle = "rgba(224, 139, 114, 1)";
+      ctx.fillRect(0, 1350, canvas.width, 150);
+
+      ctx.fillStyle = "black";
+      ctx.fillRect(980, 700, 200, 550);
+      ctx.fillStyle = "black";
+      ctx.fillRect(700, 650, 400, 600);
+      ctx.fillStyle = "rgba(114, 177, 251, 1)";
+      ctx.fillRect(710, 660, 380, 580);
+      ctx.fillStyle = "rgba(0, 122, 211, 1)";
+      ctx.fillRect(1070, 660, 20, 580);
+      ctx.fillStyle = "rgba(0, 122, 211, 1)";
+      ctx.fillRect(710, 1220, 380, 20);
+
+      ctx.fillStyle = "black";
+      ctx.fillRect(680, 900, 200, 350);
+      ctx.fillStyle = "black";
+      ctx.fillRect(400, 850, 400, 400);
+      ctx.fillStyle = "rgba(255, 187, 177, 1)";
+      ctx.fillRect(410, 860, 380, 380);
+      ctx.fillStyle = "rgba(237, 139, 100, 1)";
+      ctx.fillRect(770, 860, 20, 380);
+      ctx.fillStyle = "rgba(237, 139, 100, 1)";
+      ctx.fillRect(410, 1220, 380, 20);
+
+      var img2 = new Image();
+      img2.src = "piraña.png";
+      ctx.drawImage(img2, 1300, 400);
+      ctx.fillStyle = "black";
+      ctx.fillRect(1400, 870, 280, 380);
+      ctx.fillStyle = "rgba(38, 125, 34, 1)";
+      ctx.fillRect(1410, 890, 260, 350);
+      ctx.fillStyle = "rgba(85, 222, 102, 1)";
+      ctx.fillRect(1420, 890, 20, 350);
+      ctx.fillStyle = "rgba(85, 222, 102, 1)";
+      ctx.fillRect(1460, 890, 10, 350);
+
+      ctx.fillStyle = "rgba(5, 12, 6, 1)";
+      ctx.fillRect(1635, 890, 30, 350);
+      ctx.fillStyle = "rgba(5, 12, 6, 1)";
+      ctx.fillRect(1620, 890, 10, 350);
+
+      ctx.fillStyle = "black";
+      ctx.fillRect(1350, 750, 380, 200);
+      ctx.fillStyle = "rgba(38, 125, 34, 1)";
+      ctx.fillRect(1360, 760, 360, 180);
+      ctx.fillStyle = "rgba(85, 222, 102, 1)";
+      ctx.fillRect(1370, 760, 20, 180);
+      ctx.fillStyle = "rgba(85, 222, 102, 1)";
+      ctx.fillRect(1420, 760, 30, 180);
+      ctx.fillStyle = "rgba(85, 222, 102, 1)";
+      ctx.fillRect(1455, 760, 10, 180);
+
+      ctx.fillStyle = "rgba(5, 12, 6, 1)";
+      ctx.fillRect(1700, 760, 10, 180);
+      ctx.fillStyle = "rgba(5, 12, 6, 1)";
+      ctx.fillRect(1660, 760, 30, 180);
+      ctx.fillStyle = "rgba(5, 12, 6, 1)";
+      ctx.fillRect(1620, 760, 20, 180);
+
+      var img = new Image();
+      img.src = "mario.png";
+      ctx.drawImage(img, 900, 400);
+
+      ctx.fillStyle = "lightgrey";
+      ctx.beginPath();
+      ctx.arc(450, 900, 30, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = "lightgrey";
+      ctx.beginPath();
+      ctx.arc(750, 900, 30, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = "lightgrey";
+      ctx.beginPath();
+      ctx.arc(450, 1200, 30, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = "lightgrey";
+      ctx.beginPath();
+      ctx.arc(750, 1200, 30, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = "lightgrey";
+      ctx.beginPath();
+      ctx.arc(750, 700, 30, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = "lightgrey";
+      ctx.beginPath();
+      ctx.arc(1050, 700, 30, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = "lightgrey";
+      ctx.beginPath();
+      ctx.arc(1050, 1200, 30, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = "lightgrey";
+      ctx.beginPath();
+      ctx.arc(615, 415, 5, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.stroke();
+      ctx.fillStyle = "lightgrey";
+      ctx.beginPath();
+      ctx.arc(700, 415, 5, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.stroke();
+      ctx.fillStyle = "lightgrey";
+      ctx.beginPath();
+      ctx.arc(700, 505, 5, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.stroke();
+      ctx.fillStyle = "lightgrey";
+      ctx.beginPath();
+      ctx.arc(615, 505, 5, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = "lightgrey";
+      ctx.beginPath();
+      ctx.arc(725, 415, 5, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.stroke();
+      ctx.fillStyle = "lightgrey";
+      ctx.beginPath();
+      ctx.arc(815, 415, 5, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.stroke();
+      ctx.fillStyle = "lightgrey";
+      ctx.beginPath();
+      ctx.arc(725, 505, 5, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.stroke();
+      ctx.fillStyle = "lightgrey";
+      ctx.beginPath();
+      ctx.arc(815, 505, 5, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = "lightgrey";
+      ctx.beginPath();
+      ctx.arc(75, 415, 5, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.stroke();
+      ctx.fillStyle = "lightgrey";
+      ctx.beginPath();
+      ctx.arc(75, 505, 5, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.stroke();
+
+
+      ctx.fillStyle = "lightgrey";
+      ctx.beginPath();
+      ctx.arc(1215, 115, 5, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.stroke();
+      ctx.fillStyle = "lightgrey";
+      ctx.beginPath();
+      ctx.arc(1305, 115, 5, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.stroke();
+      ctx.fillStyle = "lightgrey";
+      ctx.beginPath();
+      ctx.arc(1215, 205, 5, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.stroke();
+      ctx.fillStyle = "lightgrey";
+      ctx.beginPath();
+      ctx.arc(1305, 205, 5, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.stroke();
+    </script>
+  </body>
+</html>
