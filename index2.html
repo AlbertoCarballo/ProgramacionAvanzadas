@@ -21,6 +21,11 @@
       const ctx = myCanvas.getContext("2d");
       var superX = 100;
       var superY = 100;
+      var pausa = false;
+
+      var puntaje = 0;
+
+      var muros = [];
 
       var figura = 1;
       var dibujando = false;
@@ -62,9 +67,20 @@
         }
       }
 
-      var jugador = new Rectangulo(getRandomColor(), 30, 30, 100, 100, 2);
-      var marca = new Rectangulo("blue", 10, 10, 300, 200, null);
-      var muro = new Rectangulo("red", 23, 300, 100, 300, null);
+      var jugador = new Rectangulo(
+        getRandomColor(),
+        30,
+        30,
+        100,
+        100,
+        velocidad
+      );
+      muros.push();
+      var marca = new Rectangulo("blue", 20, 20, 300, 200, null);
+      muros.push(new Rectangulo("red", 23, 300, 100, 300, null));
+      muros.push(new Rectangulo("red", 23, 300, 100, 60, null));
+      muros.push(new Rectangulo("red", 200, 30, 40, 60, null));
+      //var muro = new Rectangulo("red", 23, 300, 100, 300, null);
 
       document.addEventListener("keydown", function (e) {
         switch (e.keyCode) {
@@ -86,72 +102,77 @@
           }
 
           case 32: {
-            velocidad += 2;
+            pausa = !pausa;
             break;
           }
         }
       });
 
       function actualizar() {
-        if (jugador.colicion(marca)) {
-          marca.x = Math.floor(Math.random() * 500);
-          marca.y = Math.floor(Math.random() * 500);
-        }
-
-        if (jugador.colicion(muro)) {
+        if (!pausa) {
           switch (direccion) {
             case "arriba": {
-              jugador.y += jugador.velocidad;
+              jugador.y -= jugador.velocidad;
               break;
             }
             case "abajo": {
-              jugador.y -= jugador.velocidad;
-
+              jugador.y += jugador.velocidad;
               break;
             }
             case "izquierda": {
-              jugador.x += jugador.velocidad;
-              
+              jugador.x -= jugador.velocidad;
               break;
             }
             case "derecha": {
-              jugador.x -= jugador.velocidad;
-              
+              jugador.x += jugador.velocidad;
               break;
             }
           }
-          return false;
+          if (jugador.x > 490) {
+            jugador.x = -20;
+          } else if (jugador.y > 485) {
+            jugador.y = -35;
+          } else if (jugador.x < -35) {
+            jugador.x = 480;
+          } else if (jugador.y < -35) {
+            jugador.y = 485;
+          }
         }
-        //console.log(marca.x,marca.y);
 
-        switch (direccion) {
-          case "arriba": {
-            jugador.y -= jugador.velocidad;
-            break;
-          }
-          case "abajo": {
-            jugador.y += jugador.velocidad;
-            break;
-          }
-          case "izquierda": {
-            jugador.x -= jugador.velocidad;
-            break;
-          }
-          case "derecha": {
-            jugador.x += jugador.velocidad;
-            break;
-          }
+        if (jugador.colicion(marca)) {
+          marca.x = Math.floor(Math.random() * 500);
+          marca.y = Math.floor(Math.random() * 500);
+          puntaje += 10;
+          jugador.velocidad += velocidad;
         }
-        if (jugador.x > 490) {
-          jugador.x = -20;
-        } else if (jugador.y > 485) {
-          jugador.y = -35;
-        } else if (jugador.x < -35) {
-          jugador.x = 480;
-        } else if (jugador.y < -35) {
-          jugador.y = 485;
-        }
-        console.log(jugador.colicion(muro));
+        muros.forEach(function (muro, i, array) {
+          if (jugador.colicion(muro)) {
+            switch (direccion) {
+              case "arriba": {
+                jugador.y += jugador.velocidad;
+                break;
+              }
+              case "abajo": {
+                jugador.y -= jugador.velocidad;
+
+                break;
+              }
+              case "izquierda": {
+                jugador.x += jugador.velocidad;
+
+                break;
+              }
+              case "derecha": {
+                jugador.x -= jugador.velocidad;
+
+                break;
+              }
+            }
+            return false;
+          }
+        });
+
+        //console.log(marca.x,marca.y);
       }
 
       function repintarPantalla() {
@@ -166,11 +187,24 @@
         ctx.fillStyle = marca.color;
         ctx.fillRect(marca.x, marca.y, marca.w, marca.h);
 
-        ctx.fillStyle = muro.color;
-        ctx.fillRect(muro.x, muro.y, muro.w, muro.h);
+        muros.forEach(function (muro, i, array) {
+          ctx.fillStyle = muro.color;
+          ctx.fillRect(muro.x, muro.y, muro.w, muro.h);
+          ctx.font = "30px Apple Chancery";
+          ctx.fillText("Puntaje: " + puntaje, 0, 30);
+          ctx.font = "50px Apple Chancery";
+        });
 
         actualizar();
         requestAnimationFrame(repintarPantalla);
+        if (pausa) {
+          ctx.fillStyle = "rgba(177, 181, 177, 0.5)";
+          ctx.fillRect(0, 0, 500, 500);
+          ctx.fillStyle = "black";
+          ctx.font = "51px Apple Chancery";
+          ctx.fillText("P A U S A:", 100, 250);
+          ctx.font = "50px Apple Chancery";
+        }
       }
       requestAnimationFrame(repintarPantalla);
 
