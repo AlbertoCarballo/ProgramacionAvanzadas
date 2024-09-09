@@ -22,7 +22,7 @@
       var superX = 100;
       var superY = 100;
       var pausa = false;
-
+      const sonido = new Audio("mario-coin.mp3");
       var puntaje = 0;
 
       var muros = [];
@@ -144,6 +144,7 @@
           marca.y = Math.floor(Math.random() * 500);
           puntaje += 10;
           jugador.velocidad += velocidad;
+          sonido.play();
         }
         muros.forEach(function (muro, i, array) {
           if (jugador.colicion(muro)) {
@@ -174,6 +175,7 @@
 
         //console.log(marca.x,marca.y);
       }
+      var img = new Image();
 
       function repintarPantalla() {
         ctx.fillStyle = "wheat";
@@ -181,8 +183,10 @@
         ctx.fillStyle = "black";
         ctx.font = "51px Apple Chancery";
         ctx.fillText("Velocidad: " + velocidad, 650, 60);
-        ctx.fillStyle = getRandomColor();
-        ctx.fillRect(jugador.x, jugador.y, jugador.w, jugador.h);
+        // ctx.fillStyle = getRandomColor();
+        // ctx.fillRect(jugador.x, jugador.y, jugador.w, jugador.h);
+        img.src = "mario1.png";
+        ctx.drawImage(img, jugador.x, jugador.y);
 
         ctx.fillStyle = marca.color;
         ctx.fillRect(marca.x, marca.y, marca.w, marca.h);
