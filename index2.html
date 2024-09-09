@@ -176,6 +176,7 @@
         //console.log(marca.x,marca.y);
       }
       var img = new Image();
+      var img2=new Image();
 
       function repintarPantalla() {
         ctx.fillStyle = "wheat";
@@ -187,9 +188,10 @@
         // ctx.fillRect(jugador.x, jugador.y, jugador.w, jugador.h);
         img.src = "mario1.png";
         ctx.drawImage(img, jugador.x, jugador.y);
-
-        ctx.fillStyle = marca.color;
-        ctx.fillRect(marca.x, marca.y, marca.w, marca.h);
+        img2.src="coin.png"
+        ctx.drawImage(img2,marca.x,marca.y);
+        // ctx.fillStyle = marca.color;
+        // ctx.fillRect(marca.x, marca.y, marca.w, marca.h);
 
         muros.forEach(function (muro, i, array) {
           ctx.fillStyle = muro.color;
