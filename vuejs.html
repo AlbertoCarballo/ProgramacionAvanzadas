@@ -113,6 +113,33 @@
     <p>resultado {{resultado}}</p>
   </fieldset>
 </form>
+
+<h1>la razita</h1>
+<ul>
+  <li v-for="user in users">
+    {{user.name}}-{{user.rol}}
+    
+  </li>
+</ul>
+<hr>
+<form>
+  <fieldset>
+    <label >Nombre</label>
+    <div class="inputGroup">
+      <input type="text" v-model="name" placeholder=""></input>
+    </div>
+    <hr>
+    <label >Rol</label>
+    <div class="inputGroup">
+      <input type="text" v-model="rol" placeholder=""></input>
+    </div>
+    
+    <hr>
+    <button type="button" @click="subirUsuario">subir</button>
+  </fieldset>
+  
+</form>
+
 </div>
 
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
@@ -128,15 +155,50 @@
       let numero2=ref(0)
       let resultado=ref(0)
       let nombre=ref("")
+      let users =ref([
+      {
+        "name":"Andrey",
+        "rol":"Frontend"
+      },
+      {
+        "name":"Alberto",
+        "rol":"Backend"
+      },
+      {
+        "name":"Antonio",
+        "rol":"Designer"
+      }
+      ])
+      let name=ref("")
+      let rol=ref("")
       return {
         greavous,
         cont,
         numero1,
         numero2,
         resultado,
-        nombre
+        nombre,
+        users,
+        name,
+        rol
+        
       };
     },
+    
+    methods:{
+      subirUsuario(){
+        let temporal={
+          "name":this.name,
+          "rol":this.rol
+        }
+        this.users.push(temporal)
+        this.name=""
+        this.rol=""
+      }
+    }
+    
+    
+    
   }).mount("#main");
 </script>
 </body>
