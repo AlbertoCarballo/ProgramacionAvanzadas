@@ -75,131 +75,79 @@
 </head>
 <body>
   <div id="main">
-    <h2>Hello there -exclamó obi-wan- {{greavous}}</h2>
-    <button @click="cont++">Apachurrame:{{cont}}</button>
-    <hr>
-    <form>
+    
+    <h1>la razita</h1>
+    <form v-if="!loggeado">
       <fieldset>
-        <legend>Datos Personales</legend>
-        <label>Nombre</label>
+        <label >Correo</label>
         <div class="inputGroup">
-          <input type="text" v-model="nombre" placeholder="Escriba su nombre" name="">
+          <input type="text" v-model="correo" placeholder=""></input>
+        </div>
+        <hr>
+        <label >Password</label>
+        <div class="inputGroup">
+          <input type="text" v-model="password" placeholder=""></input>
         </div>
         
-        <label>
-          Hola, Mi nombre es: <span>{{nombre}}</span>
-        </label>
-      </input>
-    </fieldset>
-  </form>
-  
-  <form>
-    <fieldset>
-      <legend>Sumar</legend>
-      <label>Numero 1</label>
-      <div class="inputGroup">
-        
-        <input type="number" v-model="numero1" placeholder="">
-      </input>
-    </div>
-    <hr>
-    <label>Numero 2</label>
-    <div class="inputGroup">
-      <input type="number" v-model="numero2" placeholder=""></input>
-    </div>
+        <hr>
+        <button type="button" @click="login">subir</button>
+      </fieldset>
+      
+    </form>
+
+    <h1 v-if="loggeado">
+
+      bienvenido usuario
+
+    </h1>
     
-    <hr>
-    <button type="button" @click="resultado=numero1+numero2">sumar</button>
-    <p>resultado {{resultado}}</p>
-  </fieldset>
-</form>
-
-<h1>la razita</h1>
-<ul>
-  <li v-for="user in users">
-    {{user.name}}-{{user.rol}}
-    
-  </li>
-</ul>
-<hr>
-<form>
-  <fieldset>
-    <label >Nombre</label>
-    <div class="inputGroup">
-      <input type="text" v-model="name" placeholder=""></input>
-    </div>
-    <hr>
-    <label >Rol</label>
-    <div class="inputGroup">
-      <input type="text" v-model="rol" placeholder=""></input>
-    </div>
-    
-    <hr>
-    <button type="button" @click="subirUsuario">subir</button>
-  </fieldset>
+  </div>
   
-</form>
-
-</div>
-
-<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-
-<script>
-  const { createApp, ref } = Vue;
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
   
-  createApp({
-    setup() {
-      const greavous = ref("General Kenobi!! -Exclamó Greavous-");
-      let cont = ref(0);
-      let numero1=ref(0)
-      let numero2=ref(0)
-      let resultado=ref(0)
-      let nombre=ref("")
-      let users =ref([
-      {
-        "name":"Andrey",
-        "rol":"Frontend"
+  <script>
+    const { createApp, ref } = Vue;
+    
+    createApp({
+      setup() {
+        const greavous = ref("General Kenobi!! -Exclamó Greavous-");
+        let correo = ref("theonlyoneddx@gmail.com");
+        let password = ref("asd");
+        let loggeado=ref(false);
+        return {
+          greavous,
+          correo,
+          password,
+          loggeado
+          
+        };
       },
-      {
-        "name":"Alberto",
-        "rol":"Backend"
-      },
-      {
-        "name":"Antonio",
-        "rol":"Designer"
-      }
-      ])
-      let name=ref("")
-      let rol=ref("")
-      return {
-        greavous,
-        cont,
-        numero1,
-        numero2,
-        resultado,
-        nombre,
-        users,
-        name,
-        rol
-        
-      };
-    },
-    
-    methods:{
-      subirUsuario(){
-        let temporal={
-          "name":this.name,
-          "rol":this.rol
+      methods:{
+        login(){
+          
+          fetch("users.json").then(response => response.json()).then(data => {
+            for(let i=0; i<data.length; i++) {
+              if (data[i].email==this.correo){
+                if(data[i].password==this.password){
+                  console.log(data[i].email);
+                  console.log(data[i].password);
+                  this.loggeado = true;
+                  console.log(this.loggeado);
+                }else{
+                  alert("verifica tus datos");
+                }
+                break;
+              }
+              
+            }
+            
+          })
         }
-        this.users.push(temporal)
-        this.name=""
-        this.rol=""
-      }
-    }
-    
-    
-    
-  }).mount("#main");
-</script>
+      } 
+      
+      
+      
+    }).mount("#main");
+  </script>
 </body>
 </html>
