@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Document</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
   <div id="main">
@@ -27,11 +27,11 @@
       </fieldset>
     </form>
     
-    <h1 v-if="loggeado">
+    <h1 v-if="tabla">
       Tabla de trabajadores
     </h1>
     
-    <table border="1" v-if="loggeado">
+    <table border="1" v-if="tabla">
       <thead>
         <tr>
           <th>Datos Personales</th>
@@ -51,7 +51,7 @@
             <button v-on:click="eliminar(datos.email)">
               eliminar
             </button>
-            <button>
+            <button v-on:click="editar(datos.id)">
               editar
             </button>
           </td>
@@ -59,8 +59,38 @@
         </tr>
       </tbody>
     </table>
+    <hr>
+    
+    <form v-if="editando">
+      <fieldset>
+        <label>Nombre</label>
+        <div class="inputGroup">
+          <input type="text" v-model="editData.name" />
+        </div>
+        <hr />
+        <label>Email</label>
+        <div class="inputGroup">
+          <input type="text" v-model="editData.email" />
+        </div>
+        <hr />
+        <label>Datos de Contacto</label>
+        <div class="inputGroup">
+          <input type="text" v-model="editData.datosContacto" />
+        </div>
+        <hr />
+        <label>Datos de Compañía</label>
+        <div class="inputGroup">
+          <input type="text" v-model="editData.datosCompania" />
+        </div>
+        <hr />
+        <button type="button" @click="guardarCambios">Guardar Cambios</button>
+        <button type="button" @click="cancelarEdicion">Cancelar</button>
+      </fieldset>
+    </form>
+    
   </div>
   
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
   
   <script>
@@ -71,52 +101,93 @@
         let correo = ref("theonlyoneddx@gmail.com");
         let password = ref("asd");
         let loggeado = ref(false);
+        let tabla = ref(false);
         let arregloDisminuido = ref([]);
+        let editando = ref(false);
+        let editData = ref({
+          id: null,
+          name: '',
+          email: '',
+          datosContacto: '',
+          datosCompania: ''
+        }); // Datos temporales para edición
+        let editIndex = ref(null); // Índice del usuario que se está editando
         
         return {
           correo,
           password,
           loggeado,
+          tabla,
           arregloDisminuido,
+          editando,
+          editData,
+          editIndex,
         };
       },
       methods: {
         login() {
+          let cont = 0;
           fetch("users.json")
           .then((response) => response.json())
           .then((data) => {
             data.forEach((user) => {
-              this.arregloDisminuido.push(
-              {
+              cont++;
+              this.arregloDisminuido.push({
+                id: cont,
                 name: user.name + ", " + user.username,
                 email: user.email,
                 datosContacto: user.phone,
-                datosCompania: user.company.name +", " + user.company.catchPhrase + ", " + user.company.bs,
+                datosCompania:
+                user.company.name +
+                ", " +
+                user.company.catchPhrase +
+                ", " +
+                user.company.bs,
               });
-              if (user.email==this.correo){
-                if(user.password==this.password){
+              if (user.email == this.correo) {
+                if (user.password == this.password) {
                   console.log(user.email);
                   console.log(user.password);
                   this.loggeado = true;
+                  this.tabla = true;
                   alert("Bienvenido usuario");
-                }else{
+                } else {
                   alert("verifica tus datos");
                 }
               }
             });
           });
         },
-        eliminar(email){
-          
-          
-          
+        eliminar(email) {
           for (let index = 0; index < this.arregloDisminuido.length; index++) {
-            if (email==this.arregloDisminuido[index].email) {
-              console.log(email)
-              let borrar=this.arregloDisminuido.splice(0,1)
+            if (email == this.arregloDisminuido[index].email) {
+              console.log(email);
+              let borrar = this.arregloDisminuido.splice(0, 1);
             }
-            
           }
+        },
+        editar(id) {
+          for (let i = 0; i < this.arregloDisminuido.length; i++) {
+            if (this.arregloDisminuido[i].id === id) {
+              this.editData = { ...this.arregloDisminuido[i] };
+              this.editIndex = i;
+              this.editando = true;
+              this.tabla = false;
+              break; 
+            }
+          }
+        },
+        guardarCambios() {
+          if (this.editIndex !== null) {
+            this.arregloDisminuido[this.editIndex] = { ...this.editData };
+            this.cancelarEdicion();
+          }
+        },
+        cancelarEdicion() {
+          this.editando = false;
+          this.tabla = true;
+          this.editData = { id: null, name: '', email: '', datosContacto: '', datosCompania: '' }; 
+          this.editIndex = null;
         }
       },
     }).mount("#main");
