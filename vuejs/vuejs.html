@@ -4,13 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Document</title>
-    <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div id="main">
     <h1 v-if="!loggeado">
       Ingresa tu Correo y Contraseña
-      </h1>
+    </h1>
     <form v-if="!loggeado">
       <fieldset>
         <label>Correo</label>
@@ -35,15 +35,27 @@
       <thead>
         <tr>
           <th>Datos Personales</th>
+          <th>Email</th>
           <th>Datos de Contacto</th>
           <th>Datos de Compañía</th>
+          <th>acciones</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="datos in arregloDisminuido" :key="datos.name">
           <td>{{ datos.name }}</td>
+          <td>{{datos.email}}</td>
           <td>{{datos.datosContacto}}</td>
           <td>{{datos.datosCompania}}</td>
+          <td>
+            <button v-on:click="eliminar(datos.email)">
+              eliminar
+            </button>
+            <button>
+              editar
+            </button>
+          </td>
+          
         </tr>
       </tbody>
     </table>
@@ -77,10 +89,11 @@
               this.arregloDisminuido.push(
               {
                 name: user.name + ", " + user.username,
-                datosContacto: user.email + ", "+user.phone,
+                email: user.email,
+                datosContacto: user.phone,
                 datosCompania: user.company.name +", " + user.company.catchPhrase + ", " + user.company.bs,
               });
-                if (user.email==this.correo){
+              if (user.email==this.correo){
                 if(user.password==this.password){
                   console.log(user.email);
                   console.log(user.password);
@@ -93,6 +106,18 @@
             });
           });
         },
+        eliminar(email){
+          
+          
+          
+          for (let index = 0; index < this.arregloDisminuido.length; index++) {
+            if (email==this.arregloDisminuido[index].email) {
+              console.log(email)
+              let borrar=this.arregloDisminuido.splice(0,1)
+            }
+            
+          }
+        }
       },
     }).mount("#main");
   </script>
