@@ -31,6 +31,9 @@
       Tabla de trabajadores
     </h1>
     
+    <button type="button" v-on:click="agregarUsuario" v-if="tabla">
+      añadir usuario
+    </button>
     <table border="1" v-if="tabla">
       <thead>
         <tr>
@@ -65,26 +68,53 @@
       <fieldset>
         <label>Nombre</label>
         <div class="inputGroup">
-          <input type="text" v-model="editData.name" />
+          <input type="text" v-model="editarDatos.name" />
         </div>
         <hr />
         <label>Email</label>
         <div class="inputGroup">
-          <input type="text" v-model="editData.email" />
+          <input type="text" v-model="editarDatos.email" />
         </div>
         <hr />
         <label>Datos de Contacto</label>
         <div class="inputGroup">
-          <input type="text" v-model="editData.datosContacto" />
+          <input type="text" v-model="editarDatos.datosContacto" />
         </div>
         <hr />
         <label>Datos de Compañía</label>
         <div class="inputGroup">
-          <input type="text" v-model="editData.datosCompania" />
+          <input type="text" v-model="editarDatos.datosCompania" />
         </div>
         <hr />
         <button type="button" @click="guardarCambios">Guardar Cambios</button>
         <button type="button" @click="cancelarEdicion">Cancelar</button>
+      </fieldset>
+    </form>
+    
+    <form v-if="agregandoUsuario">
+      <fieldset>
+        <label>Nombre</label>
+        <div class="inputGroup">
+          <input type="text" v-model="nombre" />
+        </div>
+        <hr />
+        <label>Email</label>
+        <div class="inputGroup">
+          <input type="text" v-model="email" />
+        </div>
+        <hr />
+        <label>Datos de Contacto</label>
+        <div class="inputGroup">
+          <input type="text" v-model="numeroContacto" />
+        </div>
+        <hr />
+        <label>Datos de Compañía</label>
+        <div class="inputGroup">
+          <input type="text" v-model="informacionEmpresa" />
+        </div>
+        <hr />
+        <button type="button" @click="guardarUsuario">Agregar Usuario</button>
+        <button type="button" @click="cancelarEdicion">volver</button>
       </fieldset>
     </form>
     
@@ -104,14 +134,20 @@
         let tabla = ref(false);
         let arregloDisminuido = ref([]);
         let editando = ref(false);
-        let editData = ref({
+        let agregandoUsuario=ref(false);
+        let editarDatos = ref({
           id: null,
           name: '',
           email: '',
           datosContacto: '',
           datosCompania: ''
-        }); // Datos temporales para edición
-        let editIndex = ref(null); // Índice del usuario que se está editando
+        }); 
+        let editarIndex = ref(null); 
+        let nombre=ref("");
+        let email=ref("");
+        let numeroContacto=ref("");
+        let informacionEmpresa=ref("");
+        
         
         return {
           correo,
@@ -120,8 +156,12 @@
           tabla,
           arregloDisminuido,
           editando,
-          editData,
-          editIndex,
+          editarDatos,
+          editarIndex,
+          nombre,
+          email,
+          numeroContacto,
+          informacionEmpresa
         };
       },
       methods: {
@@ -169,8 +209,8 @@
         editar(id) {
           for (let i = 0; i < this.arregloDisminuido.length; i++) {
             if (this.arregloDisminuido[i].id === id) {
-              this.editData = { ...this.arregloDisminuido[i] };
-              this.editIndex = i;
+              this.editarDatos = { ...this.arregloDisminuido[i] };
+              this.editarIndex = i;
               this.editando = true;
               this.tabla = false;
               break; 
@@ -178,16 +218,38 @@
           }
         },
         guardarCambios() {
-          if (this.editIndex !== null) {
-            this.arregloDisminuido[this.editIndex] = { ...this.editData };
+          if (this.editarIndex !== null) {
+            this.arregloDisminuido[this.editarIndex] = { ...this.editarDatos };
             this.cancelarEdicion();
           }
         },
         cancelarEdicion() {
           this.editando = false;
           this.tabla = true;
-          this.editData = { id: null, name: '', email: '', datosContacto: '', datosCompania: '' }; 
-          this.editIndex = null;
+          this.editarDatos = { id: null, name: '', email: '', datosContacto: '', datosCompania: '' }; 
+          this.editarIndex = null;
+          this.agregandoUsuario=false;
+
+        },
+        agregarUsuario(){
+          this.agregandoUsuario=true;
+          this.tabla = false;
+          
+        },
+        guardarUsuario(){
+          let cont=0;
+          for (let index = 0; index < this.arregloDisminuido.length; index++) {
+            cont++;
+          }
+          this.arregloDisminuido.push({
+            id: cont,
+            name: this.nombre,
+            email: this.email,
+            datosContacto: this.numeroContacto,
+            datosCompania:this.informacionEmpresa
+          })
+          this.tabla=true;
+          this.agregandoUsuario=false
         }
       },
     }).mount("#main");
