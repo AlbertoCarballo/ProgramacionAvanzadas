@@ -1,0 +1,52 @@
+@colorFondo: rgb(244, 98, 239);
+
+@coloresHijo: rgb(221, 244, 19),rgb(157, 84, 96),rgb(158, 158, 46),rgb(1, 255, 251),rgb(128, 128, 128);
+
+.miEstilo(@bg; @color; @border){
+  background: @bg;
+  color: @color;
+  & when (border=true){
+    border-radius: 50px;
+    border-color: white;
+  }
+}
+
+.container {
+
+  .miEstilo(rgb(7, 52, 7),rgb(89, 189, 121),true);
+    li{
+      each(@coloresHijo, {
+        @index: index(@coloresHijo); 
+        &:nth-child(@{index}) {
+            background-color: @value;
+            border-color: rgb(255, 255, 255);
+            border: 5px;   
+            border-style: solid;  
+            padding: 5px;  
+        }
+    });
+  }
+  border-color: rgb(255, 255, 255);
+  border: 15px;
+}
+
+.form{
+  padding: 10px;
+}
+
+.ul{
+  padding: 10px;
+}
+
+.boton {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.boton:hover {
+  background-color: #45a049;
+}
