@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      background-image: url('fondoPeliculas.jpg');
+      background-repeat: no-repeat;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      height: 100vh;
+    }
+
+    .card-sinopsis-container {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      margin-bottom: 20px;
+    }
+
+    .rating-container {
+      width: 60%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-top: 10px;
+      background-color: white;
+    }
+
+    .slider {
+      width: 100%;
+      margin: 10px 0;
+    }
+
+    .card {
+      width: 500px;
+      height: 254px;
+      background: rgb(103, 225, 255);
+      transition: all 0.4s;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.705);
+      font-size: 30px;
+      font-weight: 900;
+      margin-right: 20px;
+      /* Espacio entre la tarjeta y la sinopsis */
+    }
+
+
+    .card:hover {
+      border-radius: 15px;
+      cursor: pointer;
+      transform: scale(1.2);
+      box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.705);
+      background: rgb(103, 151, 255);
+    }
+
+    .first-content {
+      height: 100%;
+      width: 100%;
+      transition: all 0.4s;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 1;
+      border-radius: 15px;
+    }
+
+    .card:hover .first-content {
+      height: 0px;
+      opacity: 0;
+    }
+
+    .second-content {
+      height: 0%;
+      width: 100%;
+      opacity: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 15px;
+      transition: all 0.4s;
+      font-size: 0px;
+      transform: rotate(90deg) scale(-1);
+    }
+
+    .card:hover .second-content {
+      opacity: 1;
+      height: 100%;
+      font-size: 1.8rem;
+      transform: rotate(0deg);
+    }
+
+    .actores {
+      width: 20%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      /* Alinea los actores al lado izquierdo */
+      margin-top: 10px;
+      margin-left: 10px;
+      background-color: white;
+      border-radius: 18px;
+    }
+
+    .actor {
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    .sinopsis {
+      background-color: white;
+      margin-right: 10px;
+      border-radius: 20px;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    .director {
+      width: 20%;
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-left: 10px;
+      background-color: white;
+      border-radius: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="main">
+    <div class="card-sinopsis-container">
+      <div class="card">
+        <div class="first-content">
+          <img v-bind:src="'https://media.themoviedb.org/t/p/w440_and_h660_face/' + img"
+            style="width:100% ; height:100%">
+        </div>
+        <div class="second-content">
+          <img v-bind:src="'https://media.themoviedb.org/t/p/w440_and_h660_face/' + img2"
+            style="width:100% ; height:100%">
+        </div>
+      </div>
+
+      <div class="sinopsis">
+        <span> sinopsis <br> {{ sinopsis }}</span>
+      </div>
+    </div>
+
+
+
+    <div class="director" v-for="directors in director">
+      <span>{{ directors.trabajo }}: <br> {{ directors.nombre }}</span>
+
+    </div>
+    <div class="actores">
+      <div class="actor" v-for="actor in actores">
+        <span>{{ actor.nombre }} <br> {{ actor.papel }}</span>
+      </div>
+    </div>
+
+    <br>
+
+    <div class="rating-container">
+      <label>Califica esta película (0 - 100): {{calificar}}</label>
+      <input type="range" v-model.number="calificar" id="rating" min="0" max="100" step="5" class="slider">
+      <button class="calificar-btn" @click="calificarPeli">Calificar</button>
+      <button class="borrar-btn" @click="borrarCalificacion">Borrar Calificación</button>
+    </div>
+  </div>
+  </div>
+
+
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script>
+    const { createApp, ref } = Vue
+
+    createApp({
+      setup() {
+
+        const name_app = ref('Mi primer app')
+        const actores = ref([])
+        const director = ref([])
+        const img = ref("")
+        const img2 = ref("")
+        const sinopsis = ref("")
+        const calificar = ref(50);
+
+        const ratings = ref(JSON.parse(localStorage.getItem('ratings')) || [])
+
+        return {
+          name_app,
+          actores,
+          director,
+          img,
+          img2,
+          sinopsis,
+          calificar,
+          ratings
+        }
+
+      },
+      methods: {
+        calificarPeli() {
+
+          alert(this.calificar)
+          const urlParams = new URLSearchParams(window.location.search)
+          const idPelicula = urlParams.get('id')
+          const myHeaders = new Headers();
+          myHeaders.append("Content-Type", "application/json");
+          myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwNmYxN2MyZGEyMDQ5Njg0ZTRjYmJmOTE1YmI3ZmE5MSIsIm5iZiI6MTcyODQyMDc0Ny45MjIzMDUsInN1YiI6IjY3MDU5OTM4ZjRiOTE5ZjgzOTc3OGJmNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.P2ljJ6l49mdKja0Fj5G-9mQ0CJcJKah8c_KjT_U2OVw");
+
+          const raw = JSON.stringify({
+            "value": (this.calificar / 10)
+          });
+
+          const requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow"
+          };
+
+          fetch(`https://api.themoviedb.org/3//movie/${idPelicula}/rating?username=Albercriko`, requestOptions)
+            .then((response) => response.json())
+            .then((result) => console.log(result))
+            .catch((error) => console.error(error));
+
+          this.ratings.push({
+            id: idPelicula,
+            raiting: this.calificar / 10
+          })
+          for (let index = 0; index < this.ratings.length; index++) {
+            console.log(this.ratings[index]);
+
+          }
+          localStorage.setItem(`rating_${idPelicula}`, this.calificar);
+        },
+        borrarCalificacion() {
+          const urlParams = new URLSearchParams(window.location.search);
+          const idPelicula = urlParams.get('id');
+          localStorage.removeItem(`rating_${idPelicula}`);
+          this.calificar = 50;
+
+          alert("La calificación ha sido borrada.");
+        }
+      },
+      mounted() {
+
+        console.log("Hola")
+
+        const urlParams = new URLSearchParams(window.location.search)
+        const idPelicula = urlParams.get('id')
+
+        console.log(idPelicula)
+        let is_log = localStorage.getItem("is_log");
+        let username = localStorage.getItem("username");
+
+        const calificacionAnteri = localStorage.getItem(`rating_${idPelicula}`);
+        if (calificacionAnteri) {
+          this.calificar = parseInt(calificacionAnteri);
+        }
+
+        if (is_log == null && username == null) {
+          window.location.href = "index.html";
+        }
+
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwNmYxN2MyZGEyMDQ5Njg0ZTRjYmJmOTE1YmI3ZmE5MSIsIm5iZiI6MTcyODQyMDc0Ny45MjIzMDUsInN1YiI6IjY3MDU5OTM4ZjRiOTE5ZjgzOTc3OGJmNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.P2ljJ6l49mdKja0Fj5G-9mQ0CJcJKah8c_KjT_U2OVw");
+
+        const requestOptions = {
+          method: "GET",
+          headers: myHeaders,
+          redirect: "follow"
+        };
+
+        fetch(`https://api.themoviedb.org/3//movie/${idPelicula}/credits`, requestOptions)
+          .then((response) => response.json())
+          .then((result) => {
+            for (let index = 0; index < 5; index++) {
+              this.actores.push({
+                nombre: result.cast[index].name,
+                papel: "como: " + result.cast[index].character
+              })
+              for (let index = 0; index < rating.length; index++) {
+                console.log(rating[index]);
+
+              }
+            }
+
+
+            for (let index = 0; index < result.crew.length; index++) {
+              if (result.crew[index].job == "Director") {
+                this.director.push({
+                  nombre: result.crew[index].name,
+                  trabajo: result.crew[index].job
+                })
+
+              }
+
+            }
+          })
+          .catch((error) => console.error(error));
+
+        const myHeaders2 = new Headers();
+        myHeaders2.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwNmYxN2MyZGEyMDQ5Njg0ZTRjYmJmOTE1YmI3ZmE5MSIsIm5iZiI6MTcyODQyMDc0Ny45MjIzMDUsInN1YiI6IjY3MDU5OTM4ZjRiOTE5ZjgzOTc3OGJmNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.P2ljJ6l49mdKja0Fj5G-9mQ0CJcJKah8c_KjT_U2OVw");
+
+        const requestOptions2 = {
+          method: "GET",
+          headers: myHeaders2,
+          redirect: "follow"
+        };
+
+        fetch("https://api.themoviedb.org/3//discover/movie", requestOptions2)
+          .then((response) => response.json())
+          .then((result) => {
+
+            for (let index = 0; index < result.results.length; index++) {
+              if (idPelicula == result.results[index].id) {
+                this.img = result.results[index].poster_path;
+                this.img2 = result.results[index].backdrop_path;
+                this.sinopsis = result.results[index].overview;
+                console.log(this.img);
+
+              }
+
+            }
+
+
+
+          })
+
+
+      }
+    }).mount('#main') 
+  </script>
+</body>
+
+</html>

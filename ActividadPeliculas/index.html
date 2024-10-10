@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url('fondo.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        #main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            width: 100%;
+        }
+
+        .form {
+            --bg-light: #efefef;
+            --bg-dark: #707070;
+            --clr: #58bc82;
+            --clr-alpha: #9c9c9c60;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            width: 100%;
+            max-width: 300px;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 0.5rem;
+        }
+
+        .form .input-span {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form input[type="text"],
+        .form input[type="password"] {
+            border-radius: 0.5rem;
+            padding: 1rem 0.75rem;
+            width: 100%;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: var(--clr-alpha);
+            outline: 2px solid var(--bg-dark);
+        }
+
+        .form input[type="text"]:focus,
+        .form input[type="password"]:focus {
+            outline: 2px solid var(--clr);
+        }
+
+        .label {
+            align-self: flex-start;
+            color: var(--clr);
+            font-weight: 600;
+        }
+
+        .form .submit {
+            padding: 1rem 0.75rem;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-radius: 3rem;
+            background-color: var(--bg-dark);
+            color: var(--bg-light);
+            border: none;
+            cursor: pointer;
+            transition: all 300ms;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .form .submit:hover {
+            background-color: var(--clr);
+            color: var(--bg-dark);
+        }
+
+        .span {
+            text-decoration: none;
+            color: var(--bg-dark);
+        }
+
+        .span a {
+            color: var(--clr);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="main">
+        <form class="form" @submit.prevent="login">
+            <span class="input-span">
+                <label for="email" class="label">Email</label>
+                <input type="text" name="email" id="email" v-model="email" />
+            </span>
+            <span class="input-span">
+                <label for="password" class="label">Password</label>
+                <input type="password" name="password" id="password" v-model="password" />
+            </span>
+            <input class="submit" type="submit" value="Log in" />
+        </form>
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const { createApp, ref } = Vue
+
+        createApp({
+            setup() {
+
+                const name_app = ref('Mi primer app')
+                let email = ref('Albercriko')
+                let password = ref('asdasd123123@')
+                let is_log = ref(false)
+
+                return { name_app, email, password, is_log }
+
+            },
+            methods: {
+
+                login() {
+                    console.log(this.email)
+                    console.log(this.password)
+
+                    const myHeaders = new Headers();
+                    myHeaders.append("Content-Type", "application/json");
+                    myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwNmYxN2MyZGEyMDQ5Njg0ZTRjYmJmOTE1YmI3ZmE5MSIsIm5iZiI6MTcyODQyMDc0Ny45MjIzMDUsInN1YiI6IjY3MDU5OTM4ZjRiOTE5ZjgzOTc3OGJmNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.P2ljJ6l49mdKja0Fj5G-9mQ0CJcJKah8c_KjT_U2OVw");
+
+                    const raw = JSON.stringify({
+                        "username": this.email,
+                        "password": this.password,
+                        "request_token": ""
+                    });
+
+                    const requestOptions = {
+                        method: "POST",
+                        headers: myHeaders,
+                        body: raw,
+                        redirect: "follow"
+                    };
+
+                    fetch("https://api.themoviedb.org/3/authentication/token/validate_with_login", requestOptions)
+                        .then((response) => response.json())
+                        .then((result) => {
+                            console.log(result)
+                            if (result.success) {
+
+                                this.is_log = true
+
+                                console.log(result)
+                                window.location.href = "movies.html";
+
+                                localStorage.setItem("is_log", this.is_log);
+                                localStorage.setItem("username", this.email);
+
+                            } else {
+                                alert("Verifique la información")
+                            }
+                        })
+                        .catch((error) => console.error(error));
+                }
+            },
+            mounted() {
+
+                console.log("Hola")
+
+
+                let is_log = localStorage.getItem("is_log");
+                let username = localStorage.getItem("username");
+
+                if (is_log != null && username != null) {
+
+                    window.location.href = "movies.html";
+                }
+
+
+            }
+        }).mount('#main')
+    </script>
+</body>
+
+</html>
