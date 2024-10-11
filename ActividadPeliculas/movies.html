@@ -124,14 +124,14 @@
       },
       methods: {
         detallesPelicula(movie) {
+
+
           window.location.href = `movie.html?id=${movie.id}`;
         }
 
 
       },
       mounted() {
-
-        console.log("Hola")
 
 
         let is_log = localStorage.getItem("is_log");
@@ -154,12 +154,41 @@
           .then((response) => response.json())
           .then((result) => {
 
-            console.log(result)
 
             this.peliculas = result.results
 
           })
           .catch((error) => console.error(error));
+
+        const sessionId = localStorage.getItem("session");
+        if (!sessionId) {
+          const myHeaders2 = new Headers();
+          myHeaders2.append("Content-Type", "application/json");
+          myHeaders2.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwNmYxN2MyZGEyMDQ5Njg0ZTRjYmJmOTE1YmI3ZmE5MSIsIm5iZiI6MTcyODQyMDc0Ny45MjIzMDUsInN1YiI6IjY3MDU5OTM4ZjRiOTE5ZjgzOTc3OGJmNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.P2ljJ6l49mdKja0Fj5G-9mQ0CJcJKah8c_KjT_U2OVw");
+
+          const tokens = localStorage.getItem("token");
+          const raw2 = JSON.stringify({
+            "request_token": tokens
+          });
+
+          const requestOptions2 = {
+            method: "POST",
+            headers: myHeaders2,
+            body: raw2,
+            redirect: "follow"
+          };
+
+          fetch("https://api.themoviedb.org/3/authentication/session/new", requestOptions2)
+            .then((response) => response.json())
+            .then((result) => {
+              console.log(result)
+              localStorage.setItem("session", result.session_id)
+            })
+            .catch((error) => console.error(error));
+        }
+
+
+
 
       }
     }).mount('#main') 

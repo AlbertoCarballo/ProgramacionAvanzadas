@@ -143,6 +143,7 @@
                 let email = ref('Albercriko')
                 let password = ref('asdasd123123@')
                 let is_log = ref(false)
+                let token = ref('')
 
                 return { name_app, email, password, is_log }
 
@@ -160,7 +161,7 @@
                     const raw = JSON.stringify({
                         "username": this.email,
                         "password": this.password,
-                        "request_token": ""
+                        "request_token": this.token
                     });
 
                     const requestOptions = {
@@ -178,7 +179,6 @@
 
                                 this.is_log = true
 
-                                console.log(result)
                                 window.location.href = "movies.html";
 
                                 localStorage.setItem("is_log", this.is_log);
@@ -189,11 +189,34 @@
                             }
                         })
                         .catch((error) => console.error(error));
+
+                        
+
+
+
                 }
             },
             mounted() {
+                const myHeaders2 = new Headers();
+                myHeaders2.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwNmYxN2MyZGEyMDQ5Njg0ZTRjYmJmOTE1YmI3ZmE5MSIsIm5iZiI6MTcyODQyMDc0Ny45MjIzMDUsInN1YiI6IjY3MDU5OTM4ZjRiOTE5ZjgzOTc3OGJmNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.P2ljJ6l49mdKja0Fj5G-9mQ0CJcJKah8c_KjT_U2OVw");
 
+                const requestOptions2 = {
+                    method: "GET",
+                    headers: myHeaders2,
+                    redirect: "follow"
+                };
+
+                fetch("https://api.themoviedb.org/3/authentication/token/new", requestOptions2)
+                    .then((response) => response.json())
+                    .then((result) => {
+
+                        console.log(result.request_token)
+                        this.token = result.request_token
+                        localStorage.setItem("token", result.request_token);
+                    })
+                    .catch((error) => console.error(error));
                 console.log("Hola")
+
 
 
                 let is_log = localStorage.getItem("is_log");
