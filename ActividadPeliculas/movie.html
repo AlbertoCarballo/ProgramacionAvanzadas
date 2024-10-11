@@ -5,123 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <style>
-    body {
-      display: flex;
-      justify-content: flex-start;
-      align-items: flex-start;
-      background-image: url('fondoMovie.jpg');
-      background-repeat: no-repeat;
-      margin: 0;
-      font-family: Arial, sans-serif;
-      height: 100vh;
-    }
-
-    .card-info-container {
-      display: flex;
-      flex-direction: row;
-      align-items: flex-start;
-      margin-bottom: 20px;
-      color: white;
-    }
-
-    .puntaje-container {
-      width: 60%;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      margin-top: 10px;
-      color: white;
-    }
-
-    .slider {
-      width: 100%;
-      margin: 10px 0;
-    }
-
-    .card {
-      width: 500px;
-      height: 254px;
-      background: rgb(103, 225, 255);
-      transition: all 0.4s;
-      border-radius: 10px;
-      box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.705);
-      font-size: 30px;
-      font-weight: 900;
-      margin-right: 20px;
-    }
-
-
-    .card:hover {
-      border-radius: 15px;
-      cursor: pointer;
-      transform: scale(1.2);
-      box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.705);
-      background: rgb(103, 151, 255);
-    }
-
-    .first-content {
-      height: 100%;
-      width: 100%;
-      transition: all 0.4s;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      opacity: 1;
-      border-radius: 15px;
-    }
-
-    .card:hover .first-content {
-      height: 0px;
-      opacity: 0;
-    }
-
-    .second-content {
-      height: 0%;
-      width: 100%;
-      opacity: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border-radius: 15px;
-      transition: all 0.4s;
-      font-size: 0px;
-      transform: rotate(90deg) scale(-1);
-    }
-
-    .card:hover .second-content {
-      opacity: 1;
-      height: 100%;
-      font-size: 1.8rem;
-      transform: rotate(0deg);
-    }
-
-    .actores,
-    .director {
-      display: flex;
-      flex-wrap: nowwrap;
-      margin-right: 10px;
-      font-size: 1.2rem;
-      font-weight: bold;
-
-      border-radius: 20px;
-      padding: 5px;
-    }
-
-    .actor span,
-    .director span {
-      display: inline;
-      margin-right: 50px;
-    }
-
-    .sinopsis {
-      margin-right: 10px;
-      border-radius: 20px;
-      font-size: 1.2rem;
-      font-weight: bold;
-
-    }
-  </style>
+  <link rel="stylesheet" href="./movie.css">
 </head>
 
 <body>
@@ -140,7 +24,7 @@
       </div>
 
       <div class="info-container">
-        <h1 v-model="titulo"> {{titulo}}</h1>
+        <h1 v-model="titular"> {{titular}}</h1>
         <div class="sinopsis">
           <span> Sinopsis <br> {{ sinopsis }}</span>
         </div>
@@ -162,8 +46,10 @@
     <div class="puntaje-container">
       <label>Califica esta película (0 - 100): {{calificar}}</label>
       <input type="range" v-model.number="calificar" id="rating" min="0" max="100" step="5" class="slider">
-      <button class="calificar-btn" @click="calificarPeli">Calificar</button>
-      <button class="borrar-btn" @click="borrarCalificacion">Borrar Calificación</button>
+      <div class="puntaje-btn">
+        <button class="calificar-btn" @click="calificarPeli">Calificar</button>
+        <button class="borrar-btn" @click="borrarCalificacion">Borrar Calificación</button>
+      </div>
     </div>
   </div>
   </div>
@@ -179,7 +65,7 @@
         const name_app = ref('Mi primer app')
         const actores = ref([])
         const director = ref([])
-        const titulo = ref("")
+        const titular = ref("")
         const img = ref("")
         const img2 = ref("")
         const sinopsis = ref("")
@@ -191,7 +77,7 @@
           name_app,
           actores,
           director,
-          titulo,
+          titular,
           img,
           img2,
           sinopsis,
@@ -349,7 +235,7 @@
 
             for (let index = 0; index < result.results.length; index++) {
               if (idPelicula == result.results[index].id) {
-                this.titulo = result.results[index].original_title;
+                this.titular = result.results[index].original_title;
                 this.img = result.results[index].poster_path;
                 this.img2 = result.results[index].backdrop_path;
                 this.sinopsis = result.results[index].overview;
