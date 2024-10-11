@@ -10,27 +10,28 @@
       display: flex;
       justify-content: flex-start;
       align-items: flex-start;
-      background-image: url('fondoPeliculas.jpg');
+      background-image: url('fondoMovie.jpg');
       background-repeat: no-repeat;
       margin: 0;
       font-family: Arial, sans-serif;
       height: 100vh;
     }
 
-    .card-sinopsis-container {
+    .card-info-container {
       display: flex;
       flex-direction: row;
       align-items: flex-start;
       margin-bottom: 20px;
+      color: white;
     }
 
-    .rating-container {
+    .puntaje-container {
       width: 60%;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
       margin-top: 10px;
-      background-color: white;
+      color: white;
     }
 
     .slider {
@@ -96,40 +97,30 @@
       transform: rotate(0deg);
     }
 
-    .actores {
-      width: 20%;
+    .actores,
+    .director {
       display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      /* Alinea los actores al lado izquierdo */
-      margin-top: 10px;
-      margin-left: 10px;
-      background-color: white;
-      border-radius: 18px;
-    }
-
-    .actor {
-      margin-bottom: 10px;
+      flex-wrap: nowwrap;
+      margin-right: 10px;
       font-size: 1.2rem;
       font-weight: bold;
+
+      border-radius: 20px;
+      padding: 5px;
+    }
+
+    .actor span,
+    .director span {
+      display: inline;
+      margin-right: 50px;
     }
 
     .sinopsis {
-      background-color: white;
       margin-right: 10px;
       border-radius: 20px;
       font-size: 1.2rem;
       font-weight: bold;
-    }
 
-    .director {
-      width: 20%;
-      margin-bottom: 10px;
-      font-size: 1.2rem;
-      font-weight: bold;
-      margin-left: 10px;
-      background-color: white;
-      border-radius: 20px;
     }
   </style>
 </head>
@@ -137,7 +128,7 @@
 <body>
 
   <div id="main">
-    <div class="card-sinopsis-container">
+    <div class="card-info-container">
       <div class="card">
         <div class="first-content">
           <img v-bind:src="'https://media.themoviedb.org/t/p/w440_and_h660_face/' + img"
@@ -149,26 +140,27 @@
         </div>
       </div>
 
-      <div class="sinopsis">
-        <span> sinopsis <br> {{ sinopsis }}</span>
+      <div class="info-container">
+        <h1 v-model="titulo"> {{titulo}}</h1>
+        <div class="sinopsis">
+          <span> Sinopsis <br> {{ sinopsis }}</span>
+        </div>
+
+        <div class="director" v-for="directors in director">
+          <span>{{ directors.trabajo }}: <br> {{ directors.nombre }}</span>
+        </div>
+
+        <div class="actores">
+          <div class="actor" v-for="actor in actores">
+            <span>{{ actor.nombre }} </span>
+            <br>
+            <span> {{ actor.papel }}</span>
+          </div>
+        </div>
       </div>
     </div>
 
-
-
-    <div class="director" v-for="directors in director">
-      <span>{{ directors.trabajo }}: <br> {{ directors.nombre }}</span>
-
-    </div>
-    <div class="actores">
-      <div class="actor" v-for="actor in actores">
-        <span>{{ actor.nombre }} <br> {{ actor.papel }}</span>
-      </div>
-    </div>
-
-    <br>
-
-    <div class="rating-container">
+    <div class="puntaje-container">
       <label>Califica esta película (0 - 100): {{calificar}}</label>
       <input type="range" v-model.number="calificar" id="rating" min="0" max="100" step="5" class="slider">
       <button class="calificar-btn" @click="calificarPeli">Calificar</button>
@@ -188,6 +180,7 @@
         const name_app = ref('Mi primer app')
         const actores = ref([])
         const director = ref([])
+        const titulo = ref("")
         const img = ref("")
         const img2 = ref("")
         const sinopsis = ref("")
@@ -199,6 +192,7 @@
           name_app,
           actores,
           director,
+          titulo,
           img,
           img2,
           sinopsis,
@@ -210,7 +204,7 @@
       methods: {
         calificarPeli() {
 
-          alert(this.calificar)
+          
           const urlParams = new URLSearchParams(window.location.search)
           const idPelicula = urlParams.get('id')
           const myHeaders = new Headers();
@@ -230,26 +224,34 @@
 
           fetch(`https://api.themoviedb.org/3//movie/${idPelicula}/rating?username=Albercriko`, requestOptions)
             .then((response) => response.json())
-            .then((result) => console.log(result))
+            .then((result) => {
+              console.log(result.success)
+              if (result.success) {
+                console.log("entre")
+                this.ratings.push({
+                  id: idPelicula,
+                  raiting: this.calificar / 10
+                })
+                if (this.calificar >=80){
+                  alert("oye que buena onda te traes")
+                }else if(this.calificar>=60&&this.calificar<=79){
+                  alert("oye te cargas una onda media")
+                }else{
+                  alert("oye te cargas una mala onda ")
+                }
+              }
+            })
             .catch((error) => console.error(error));
-
-          this.ratings.push({
-            id: idPelicula,
-            raiting: this.calificar / 10
-          })
-          for (let index = 0; index < this.ratings.length; index++) {
-            console.log(this.ratings[index]);
-
-          }
           localStorage.setItem(`rating_${idPelicula}`, this.calificar);
         },
         borrarCalificacion() {
+
           const urlParams = new URLSearchParams(window.location.search);
           const idPelicula = urlParams.get('id');
           localStorage.removeItem(`rating_${idPelicula}`);
           this.calificar = 50;
 
-          alert("La calificación ha sido borrada.");
+          alert("tu onda ha sido destruida.");
         }
       },
       mounted() {
@@ -324,6 +326,7 @@
 
             for (let index = 0; index < result.results.length; index++) {
               if (idPelicula == result.results[index].id) {
+                this.titulo = result.results[index].original_title;
                 this.img = result.results[index].poster_path;
                 this.img2 = result.results[index].backdrop_path;
                 this.sinopsis = result.results[index].overview;
