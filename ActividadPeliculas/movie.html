@@ -117,7 +117,14 @@
               }
             })
             .catch((error) => console.error(error));
-          localStorage.setItem(`rating_${idPelicula}`, this.calificar);
+          if (this.calificar >= 80) {
+            alert("oye que buena onda te traes")
+          } else if (this.calificar >= 60 && this.calificar <= 79) {
+            alert("oye te cargas una onda media")
+          } else {
+            alert("oye te cargas una mala onda ")
+          }
+
         },
         borrarCalificacion() {
 
@@ -167,15 +174,14 @@
           .then((response) => response.json())
           .then((result) => {
             console.log(result);
-            for (let index = 0; index < result.results.length; index++) {
-              if (result.results[index].id == idPelicula) {
-                console.log(result.results[index].rating * 10)
-                this.calificar = (result.results[index].rating * 10)
-              } else {
-                this.calificar = 0
-              }
+            const movie = result.results.find(movie => movie.id == idPelicula);
 
+            if (movie) {
+              this.calificar = movie.rating * 10; 
+            } else {
+              this.calificar = 0; 
             }
+
           })
           .catch((error) => console.error(error));
 
