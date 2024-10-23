@@ -1,142 +1,76 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Responsive Bootstrap Layout</title>
-    <!-- Bootstrap CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+	<style type="text/css">
+		.logo {
+			max-width: 200px;
+		}
 
-    <style>
-        @media (max-width: 100%) {
-            #sidebarMenu {
-                display: none;
-            }
-        }
-
-        #content {
-            flex-grow: 1;
-            height: 100vh;
-            overflow-y: auto;
-        }
-    </style>
+		.cover-login {
+			background: url(login_cover.jpg) no-repeat center center fixed;
+			-webkit-background-size: cover;
+			-moz-background-size: cover;
+			-o-background-size: cover;
+			background-size: cover;
+		}
+	</style>
 </head>
 
 <body>
-    <div class="container-fluid">
-        <div class="row">
-            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse">
-                <div class="position-sticky">
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link text-white active">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white">Dashboard</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white">Orders</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white">Products</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white">Customers</a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
 
-            <div id="content" class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                    <div class="container-fluid">
-                        <a class="navbar-brand">Navbar scroll</a>
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false"
-                            aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                        <div class="collapse navbar-collapse" id="navbarScroll">
-                            <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll">
-                                <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="#">Home</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" >Option A</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" >Option B</a>
-                                </li>
-                            </ul>
-                            <form class="d-flex">
-                                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                                <button class="btn btn-success" type="submit">Search</button>
-                            </form>
-                            <ul class="navbar-nav">
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button"
-                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                        mdo
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item">Profile</a></li>
-                                        <li><a class="dropdown-item">Settings</a></li>
-                                        <li>
-                                            <hr class="dropdown-divider">
-                                        </li>
-                                        <li><a class="dropdown-item">Logout</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-                <div class="container mt-4">
-                    <div class="row">
-                        <div class="col-sm-12 col-md-6 col-lg-4 mb-3">
-                            <div class="card">
-                                <img src="hamburguer.jpg" class="card-img-top" alt="Descripción de la imagen"
-                                    style="width: 70%; height: 100%; object-fit: cover; margin: 0 auto;">
-                                <div class="card-body">
-                                    <h5 class="card-title">JD</h5>
-                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-6 col-lg-4 mb-3">
-                            <div class="card">
-                                <img src="hamburguer.jpg" class="card-img-top" alt="Descripción de la imagen"
-                                    style="width: 70%; height: 100%; object-fit: cover; margin: 0 auto;">
-                                <div class="card-body">
-                                    <h5 class="card-title">JD</h5>
-                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-6 col-lg-4 mb-3">
-                            <div class="card">
-                                <img src="hamburguer.jpg" class="card-img-top" alt="Descripción de la imagen"
-                                    style="width: 70%; height: 100%; object-fit: cover; margin: 0 auto;">
-                                <div class="card-body">
-                                    <h5 class="card-title">JD</h5>
-                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="container vh-100 align-items-center align-items-center">
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+		<div class="row mt-5 justify-content-md-center">
+
+			<div class="col-xs-12 col-md-5 shadow-lg cover-login rounded d-none d-md-block">
+			</div>
+
+			<div class="col-xs-12 col-md-5 shadow-lg p-3 rounded">
+				<!-- formulario de login -->
+
+				<img class="logo img-thumbnail rounded mb-4" src="logo.avif">
+
+				<h3>
+					Accede al panel administrador
+				</h3>
+
+				<form  method="POST" action="app/AuthController.php">
+					<div class="mb-3">
+						<label for="exampleInputEmail1" class="form-label">Email address</label>
+						<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+							name="email" required>
+						<div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+					</div>
+					<div class="mb-3">
+						<label for="exampleInputPassword1" class="form-label">Password</label>
+						<input type="password" class="form-control" id="exampleInputPassword1" name="password" required>
+					</div>
+					<div class="mb-3 form-check">
+						<input type="checkbox" class="form-check-input" id="exampleCheck1">
+						<label class="form-check-label" for="exampleCheck1">Check me out</label>
+					</div>
+					<button type="submit" class="btn btn-primary col-12">
+						Submit
+					</button>
+
+					<input type="hidden" name="action" value="access">
+				</form>
+
+			</div>
+
+		</div>
+
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+		crossorigin="anonymous"></script>
 </body>
 
 </html>
