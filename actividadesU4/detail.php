@@ -1,6 +1,6 @@
 <?php
-require_once 'app/AuthController.php';
-$controller = new controllerGetDetailProduct();
+require_once 'app/ProductsController.php';
+$controller = new controllerProducts();
 $product = $controller->getDetailProduct();
 ?>
 <!DOCTYPE html>

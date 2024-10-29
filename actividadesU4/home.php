@@ -1,7 +1,7 @@
 <?php
-require_once 'app/AuthController.php';
-$controller = new controllerGetProducts();
-$products = $controller->getProducts();
+require_once 'app/ProductsController.php';
+$controller = new controllerProducts();
+$products = array_reverse($controller->getProducts());
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -118,20 +118,30 @@ $products = $controller->getProducts();
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <form>
+                                        <form method="POST" action="app/ProductsController.php" >
                                             <div class="mb-3">
                                                 <label for="productName" class="form-label">Nombre del Producto</label>
-                                                <input type="text" class="form-control" id="productName" required>
+                                                <input name="name" type="text" class="form-control" id="productName" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="productDescription" class="form-label">slug</label>
+                                                <input  name="slug" class="form-control" id="productDescription" rows="3" required></input>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="productDescription" class="form-label">Descripción</label>
-                                                <textarea class="form-control" id="productDescription" rows="3" required></textarea>
+                                                <textarea name="description" class="form-control" id="productDescription" rows="3" required></textarea>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="productDescription" class="form-label">features</label>
+                                                <textarea name="features" class="form-control" id="productDescription" rows="3" required></textarea>
                                             </div>
                                             <button type="submit" class="btn btn-primary">Agregar</button>
+                                            <input type="hidden" name="action" value="add_product">
                                         </form>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -147,7 +157,7 @@ $products = $controller->getProducts();
                                             onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=<?php echo urlencode($product->name); ?>';">                                                <div class="card-body">
                                                 <h5 class="card-title"><?php echo htmlspecialchars($product->name); ?></h5>
                                                 <p class="card-text"><?php echo htmlspecialchars($product->description); ?></p>
-                                                <a href="detail.php?id=<?php echo $product->id; ?>" class="btn btn-primary">Ver Detalles</a>
+                                                <a href="detail.php?slug=<?php echo $product->id; ?>" class="btn btn-primary">Ver Detalles</a>
                                             </div>
                                             <div class="card-body d-flex justify-content-between">
                                                 <a href="#" class="btn btn-danger">Eliminar</a>
