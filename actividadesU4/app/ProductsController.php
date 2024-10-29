@@ -1,15 +1,32 @@
 <?php
 
     session_start();
+
     if(isset($_POST["action"])){
         switch($_POST["action"]){
-            case "add_product":
+            case "add_product":{
                 $name=$_POST["name"];
                 $slug=$_POST["slug"];
                 $description=$_POST["description"];
                 $features=$_POST["features"];
                 $productController= new controllerProducts();
                 $productController->postProduct($name,$slug,$description,$features);
+                break;
+            }
+            case "update_product":{
+                if (isset($_GET["id"])){
+                    $id=$_GET["id"];
+                };
+                $name=$_POST["name"];
+                $slug=$_POST["slug"];
+                $description=$_POST["description"];
+                $features=$_POST["features"];
+                $productController= new controllerProducts();
+                $productController->updateProduct($id,$name,$slug,$description,$features);
+                break;
+
+
+            }
 
         }
     };
@@ -126,6 +143,44 @@
         }else{
             header("Location: ../home.php?status=error");
         }
+    }
+
+    public function updateProduct($id,$name,$slug,$description,$features){
+        $postFields = "name=" . urlencode($name) .
+                    "&slug=" . urlencode($slug) .
+                    "&description=" . urlencode($description) .
+                    "&features=" . urlencode($features) .
+                    "&id=" . urlencode($id);
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => 'https://crud.jonathansoto.mx/api/products',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'PUT',
+        CURLOPT_POSTFIELDS => $postFields,
+        CURLOPT_HTTPHEADER => array(
+            'Content-Type: application/x-www-form-urlencoded',
+            'Authorization: Bearer 4|M3THebltF1dQVatsITivh2ab3UKgRqpw8ypf4oUu'
+        ),
+        ));
+        
+        $response = curl_exec($curl);
+        
+        curl_close($curl);
+        $response=json_decode($response);
+        if(isset($response->code)&&$response->code > 0){
+            header("Location: ../home.php?status=ok");
+        }else{
+            header("Location: ../home.php?status=error");
+        }
+        
+
+    
     }
 }
 

@@ -174,16 +174,25 @@ $products = array_reverse($controller->getProducts());
                                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                             </div>
                                                             <div class="modal-body">
-                                                                <form>
+                                                                <form method="POST" action="app/ProductsController.php?id=<?php echo $product->id; ?>">
                                                                     <div class="mb-3">
                                                                         <label for="editProductName<?php echo $product->id; ?>" class="form-label">Nombre del Producto</label>
-                                                                        <input type="text" class="form-control" id="editProductName<?php echo $product->id; ?>" value="<?php echo htmlspecialchars($product->name); ?>" required>
+                                                                        <input name="name" type="text" class="form-control" id="editProductName<?php echo $product->id; ?>" value="<?php echo htmlspecialchars($product->name); ?>" required></input>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="editProductName<?php echo $product->id; ?>" class="form-label">Slug del Producto</label>
+                                                                        <input name="slug" type="text" class="form-control" id="editProductName<?php echo $product->id; ?>" value="<?php echo htmlspecialchars($product->slug); ?>" required></input>
                                                                     </div>
                                                                     <div class="mb-3">
                                                                         <label for="editProductDescription<?php echo $product->id; ?>" class="form-label">Descripción</label>
-                                                                        <textarea class="form-control" id="editProductDescription<?php echo $product->id; ?>" rows="3" required><?php echo htmlspecialchars($product->description); ?></textarea>
+                                                                        <textarea name="description" class="form-control" id="editProductDescription<?php echo $product->id; ?>" rows="3" required><?php echo htmlspecialchars($product->description); ?></textarea>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="editProductDescription<?php echo $product->id; ?>" class="form-label">Features</label>
+                                                                        <textarea name="features" class="form-control" id="editProductDescription<?php echo $product->id; ?>" rows="3" required><?php echo htmlspecialchars($product->features); ?></textarea>
                                                                     </div>
                                                                     <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                                                                    <input type="hidden" name="action" value="update_product">
                                                                 </form>
                                                             </div>
                                                             <div class="modal-footer">
