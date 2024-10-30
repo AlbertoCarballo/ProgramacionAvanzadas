@@ -1,7 +1,6 @@
 <?php
 
     session_start();
-
     if(isset($_POST["action"])){
         switch($_POST["action"]){
             case "add_product":{
@@ -24,8 +23,13 @@
                 $productController= new controllerProducts();
                 $productController->updateProduct($id,$name,$slug,$description,$features);
                 break;
-
-
+            }
+            case "delete_product":{
+                $id=$_POST["id_product"];
+                
+                $productController= new controllerProducts();
+                $productController->delete($id);
+                break;
             }
 
         }
@@ -181,6 +185,34 @@
         
 
     
+    }
+
+    public function delete($id){
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => 'https://crud.jonathansoto.mx/api/products/'.$id,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'DELETE',
+        CURLOPT_HTTPHEADER => array(
+            'Authorization: Bearer 4|M3THebltF1dQVatsITivh2ab3UKgRqpw8ypf4oUu'
+        ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+        $response=json_decode($response);
+        if(isset($response->code)&&$response->code > 0){
+            header("Location: ../home.php?status=ok");
+        }else{
+            header("Location: ../home.php?status=error");
+        }
     }
 }
 

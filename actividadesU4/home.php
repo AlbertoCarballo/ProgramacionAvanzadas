@@ -160,7 +160,11 @@ $products = array_reverse($controller->getProducts());
                                                 <a href="detail.php?slug=<?php echo $product->id; ?>" class="btn btn-primary">Ver Detalles</a>
                                             </div>
                                             <div class="card-body d-flex justify-content-between">
-                                                <a href="#" class="btn btn-danger">Eliminar</a>
+                                                <a onclick="remove(<?=$product->id?>)" class="btn btn-danger">Eliminar</a>
+                                                <form method="POST" id="deleteProductForm" action="app/ProductsController.php">
+                                                                    <input type="hidden" name="action" value="delete_product">
+                                                                    <input type="hidden" name="id_product" value="update_product" id="delete_id_product">
+                                                </form>
                                                 <button type="button" class="btn btn-warning" data-bs-toggle="modal"
                                                     data-bs-target="#editProductModal<?php echo $product->id; ?>">
                                                     Editar
@@ -216,6 +220,31 @@ $products = array_reverse($controller->getProducts());
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script type="text/javascript">
+
+
+        function remove(id){
+            swal({
+                title: "Estas seguro de borrarlo?",
+                text: "Una ves borrado no hay vuelta atras!!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+                })
+                .then((willDelete) => {
+                if (willDelete) {
+                    swal("Y así magicamente, tu elemento se ha borrado!", {
+                    icon: "success",
+                    });
+                    document.getElementById("delete_id_product").value=id;
+                    document.getElementById("deleteProductForm").submit();
+                } else {
+                    swal("Your imaginary file is safe!");
+                }
+                });
+        }
+    </script>
 </body>
 
 </html>
