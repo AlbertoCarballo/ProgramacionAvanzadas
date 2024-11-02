@@ -173,7 +173,7 @@ $brands= $brand->getBrands();
                                             onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=<?php echo urlencode($product->name); ?>';">                                                <div class="card-body">
                                                 <h5 class="card-title"><?php echo htmlspecialchars($product->name); ?></h5>
                                                 <p class="card-text"><?php echo htmlspecialchars($product->description); ?></p>
-                                                <a href="detail.php?slug=<?php echo $product->id; ?>" class="btn btn-primary">Ver Detalles</a>
+                                                <a href="product/<?php echo htmlspecialchars($product->id); ?>/" class="btn btn-primary">Ver Detalles</a>
                                             </div>
                                             <div class="card-body d-flex justify-content-between">
                                                 <a onclick="remove(<?=$product->id?>)" class="btn btn-danger">Eliminar</a>

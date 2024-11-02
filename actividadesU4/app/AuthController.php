@@ -40,7 +40,7 @@
             if (isset($response->message) && $response->message === "Registro obtenido correctamente" 
             && is_object($response->data)) {
                 
-                header("Location: ../home.php");
+                header("Location: ../home");
             }else{
                 header("Location: ../index.html");
             }

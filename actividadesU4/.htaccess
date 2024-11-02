@@ -1,0 +1,16 @@
+Options +FollowSymLinks
+RewriteEngine On
+
+# Redirigir home a home.php
+RewriteRule ^home/?$ home.php [L]
+# Redirigir product/slug al archivo correspondiente
+RewriteRule ^product/([a-zA-Z0-9-]+)/?$ detail.php?slug=$1 [L]
+
+RewriteRule ^app/Auth?$ app/AuthController.php [L]
+
+RewriteRule ^app/resources?$ app/ProductsController.php [L]
+
+RewriteRule ^app/brand?$ app/BrandsController.php [L]
+
+
+
