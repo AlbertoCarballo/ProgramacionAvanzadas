@@ -8,8 +8,9 @@
                 $slug=$_POST["slug"];
                 $description=$_POST["description"];
                 $features=$_POST["features"];
+                $idBrand=$_POST["id_brand"];
                 $productController= new controllerProducts();
-                $productController->postProduct($name,$slug,$description,$features);
+                $productController->postProduct($name,$slug,$description,$features,$idBrand);
                 break;
             }
             case "update_product":{
@@ -49,7 +50,7 @@
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => 'GET',
         CURLOPT_HTTPHEADER => array(
-            'Authorization: Bearer 4|M3THebltF1dQVatsITivh2ab3UKgRqpw8ypf4oUu'
+            'Authorization: Bearer 57|ZTliqXzuTSnF4Ogsrj3BdVSH4HPMkfHdmhVrJn4I'
         ),
         ));
 
@@ -93,7 +94,7 @@
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => 'GET',
         CURLOPT_HTTPHEADER => array(
-            'Authorization: Bearer 4|M3THebltF1dQVatsITivh2ab3UKgRqpw8ypf4oUu'
+            'Authorization: Bearer 57|ZTliqXzuTSnF4Ogsrj3BdVSH4HPMkfHdmhVrJn4I'
         ),
         ));
 
@@ -119,7 +120,7 @@
         
     }
 
-    public function postProduct($name,$slug,$description,$features){
+    public function postProduct($name,$slug,$description,$features,$idBrand){
         $curl = curl_init();
         curl_setopt_array($curl, array(
         CURLOPT_URL => 'https://crud.jonathansoto.mx/api/products',
@@ -133,9 +134,10 @@
         CURLOPT_POSTFIELDS => array('name' => $name,
                                     'slug' => $slug,
                                     'description' => $description,
-                                    'features' => $features),
+                                    'features' => $features,
+                                    'brand_id' => $idBrand),
         CURLOPT_HTTPHEADER => array(
-            'Authorization: Bearer 4|M3THebltF1dQVatsITivh2ab3UKgRqpw8ypf4oUu'),
+            'Authorization: Bearer 57|ZTliqXzuTSnF4Ogsrj3BdVSH4HPMkfHdmhVrJn4I'),
         ));
 
         $response = curl_exec($curl);
@@ -169,7 +171,7 @@
         CURLOPT_POSTFIELDS => $postFields,
         CURLOPT_HTTPHEADER => array(
             'Content-Type: application/x-www-form-urlencoded',
-            'Authorization: Bearer 4|M3THebltF1dQVatsITivh2ab3UKgRqpw8ypf4oUu'
+            'Authorization: Bearer 57|ZTliqXzuTSnF4Ogsrj3BdVSH4HPMkfHdmhVrJn4I'
         ),
         ));
         
@@ -200,7 +202,7 @@
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => 'DELETE',
         CURLOPT_HTTPHEADER => array(
-            'Authorization: Bearer 4|M3THebltF1dQVatsITivh2ab3UKgRqpw8ypf4oUu'
+            'Authorization: Bearer 57|ZTliqXzuTSnF4Ogsrj3BdVSH4HPMkfHdmhVrJn4I'
         ),
         ));
 

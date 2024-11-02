@@ -1,7 +1,11 @@
 <?php
 require_once 'app/ProductsController.php';
+include_once "app/BrandsController.php";
 $controller = new controllerProducts();
 $products = array_reverse($controller->getProducts());
+$brand=new brandsController();
+$brands= $brand->getBrands();
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -134,6 +138,18 @@ $products = array_reverse($controller->getProducts());
                                             <div class="mb-3">
                                                 <label for="productDescription" class="form-label">features</label>
                                                 <textarea name="features" class="form-control" id="productDescription" rows="3" required></textarea>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="productDescription" class="form-label">Marca</label>
+                                                <select name="id_brand" class=" form-control">
+                                                    <?php if(isset($brands)&& count($brands)):?>
+                                                    <?php foreach($brands as $brand): ?>
+                                                        <option value="<?=$brand->id?>">
+                                                        <?=$brand->name?>
+                                                        </option>
+                                                    <?php endforeach ?>
+                                                    <?php endif?>
+                                                </select>
                                             </div>
                                             <button type="submit" class="btn btn-primary">Agregar</button>
                                             <input type="hidden" name="action" value="add_product">
