@@ -122,7 +122,7 @@ $brands= $brand->getBrands();
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <form method="POST" action="app/ProductsController.php" >
+                                        <form enctype="multipart/form-data" method="POST" action="app/ProductsController.php"  >
                                             <div class="mb-3">
                                                 <label for="productName" class="form-label">Nombre del Producto</label>
                                                 <input name="name" type="text" class="form-control" id="productName" required>
@@ -150,7 +150,11 @@ $brands= $brand->getBrands();
                                                     <?php endforeach ?>
                                                     <?php endif?>
                                                 </select>
-                                            </div>
+                                                </div> 
+                                                <div class="mb-3">
+                                                    <label for= "productImage" class="form-label">Imagen del Producto</label>
+                                                    <input name= "cover" type="file" class="form-control"  required>
+                                                </div>
                                             <button type="submit" class="btn btn-primary">Agregar</button>
                                             <input type="hidden" name="action" value="add_product">
                                         </form>

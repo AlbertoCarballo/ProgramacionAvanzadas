@@ -1,5 +1,4 @@
 <?php
-
     session_start();
     if(isset($_POST["action"])){
         switch($_POST["action"]){
@@ -9,9 +8,20 @@
                 $description=$_POST["description"];
                 $features=$_POST["features"];
                 $idBrand=$_POST["id_brand"];
+                $target_path = "/Applications/MAMP/htdocs/actividadesU4/uploads/"; 
+                $imagePath = $target_path . basename($_FILES['cover']['name']); 
+                if (isset($_FILES['cover']) && $_FILES['cover']['error'] === UPLOAD_ERR_OK) {
+                    if (move_uploaded_file($_FILES['cover']['tmp_name'], $imagePath)) {
+                    } else {
+                        echo "Ha ocurrido un error al mover el archivo.";
+                    }
+                } else {
+                    echo "No se ha subido ningún archivo o hubo un error en la subida.";
+                }
                 $productController= new controllerProducts();
-                $productController->postProduct($name,$slug,$description,$features,$idBrand);
+                $productController->postProduct($name,$slug,$description,$features,$idBrand,$imagePath);
                 break;
+                
             }
             case "update_product":{
                 if (isset($_GET["id"])){
@@ -21,6 +31,9 @@
                 $slug=$_POST["slug"];
                 $description=$_POST["description"];
                 $features=$_POST["features"];
+
+                 // Manejar la imagen para actualización (opcional)
+                
                 $productController= new controllerProducts();
                 $productController->updateProduct($id,$name,$slug,$description,$features);
                 break;
@@ -50,7 +63,7 @@
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => 'GET',
         CURLOPT_HTTPHEADER => array(
-            'Authorization: Bearer 57|ZTliqXzuTSnF4Ogsrj3BdVSH4HPMkfHdmhVrJn4I'
+            'Authorization: Bearer 89|1lsBgzUoCzi66u9dFpMrmtOB7dAkVnvUN3CtUxoM'
         ),
         ));
 
@@ -120,35 +133,41 @@
         
     }
 
-    public function postProduct($name,$slug,$description,$features,$idBrand){
+    public function postProduct($name,$slug,$description,$features,$idBrand,$imagePath){
         $curl = curl_init();
-        curl_setopt_array($curl, array(
-        CURLOPT_URL => 'https://crud.jonathansoto.mx/api/products',
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_ENCODING => '',
-        CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 0,
-        CURLOPT_FOLLOWLOCATION => true,
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => 'POST',
-        CURLOPT_POSTFIELDS => array('name' => $name,
-                                    'slug' => $slug,
-                                    'description' => $description,
-                                    'features' => $features,
-                                    'brand_id' => $idBrand),
-        CURLOPT_HTTPHEADER => array(
-            'Authorization: Bearer 57|ZTliqXzuTSnF4Ogsrj3BdVSH4HPMkfHdmhVrJn4I'),
-        ));
-
-        $response = curl_exec($curl);
-
-        curl_close($curl);
-        $response=json_decode($response);
-        if(isset($response->code)&&$response->code > 0){
-            header("Location: ../home.php?status=ok");
-        }else{
-            header("Location: ../home.php?status=error");
-        }
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => 'https://crud.jonathansoto.mx/api/products',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => array(
+                    'name' => $name,
+                    'slug' => $slug,
+                    'description' => $description,
+                    'features' => $features,
+                    'brand_id' => $idBrand,
+                    'cover' => new CURLFile($imagePath) // Asegúrate de usar CURLFile para archivos
+                ),
+                CURLOPT_HTTPHEADER => array(
+                    'Authorization: Bearer 57|ZTliqXzuTSnF4Ogsrj3BdVSH4HPMkfHdmhVrJn4I'
+                ),
+            ));
+            
+            // Ejecuta la solicitud cURL
+            $response = curl_exec($curl);
+            var_dump($response);
+            curl_close($curl);
+            $response = json_decode($response);
+            if (isset($response->code) && $response->code > 0) {
+                header("Location: ../home.php?status=ok");
+            } else {
+                header("Location: ../home.php?status=error");
+            }
+        
     }
 
     public function updateProduct($id,$name,$slug,$description,$features){
