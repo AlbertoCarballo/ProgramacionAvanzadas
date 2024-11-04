@@ -1,6 +1,10 @@
 <?php
     session_start();
     if(isset($_POST["action"])){
+        if (!isset($_POST['token']) || $_POST['token'] !== $_SESSION['token']) {
+            echo "Error: El token no es válido.";
+            exit;
+        }
         switch($_POST["action"]){
             case "add_product":{
                 $name=$_POST["name"];

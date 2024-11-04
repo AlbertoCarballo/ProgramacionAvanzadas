@@ -1,6 +1,7 @@
 <?php
     // var_dump($_POST);
-
+    session_start();
+    
     if (isset($_POST["action"]) && $_POST["action"] === 'access') {
         $email = $_POST["email"];
         $password = $_POST["password"];
@@ -39,11 +40,22 @@
 
             if (isset($response->message) && $response->message === "Registro obtenido correctamente" 
             && is_object($response->data)) {
-                
+                $token = $this->token();
+                $_SESSION['token'] = $token;
                 header("Location: ../home");
             }else{
                 header("Location: ../index.html");
             }
+        }
+
+        public function token ($leng=40) {
+            $cadena = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            $token = "";
+            
+            for($i=0; $i<$leng; $i++){
+                $token .= $cadena[rand(0,35)];
+            }
+            return $token;
         }
     }
 

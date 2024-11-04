@@ -155,8 +155,11 @@ $brands= $brand->getBrands();
                                                     <label for= "productImage" class="form-label">Imagen del Producto</label>
                                                     <input name= "cover" type="file" class="form-control"  required>
                                                 </div>
-                                            <button type="submit" class="btn btn-primary">Agregar</button>
+                                            <button type="submit" class="btn btn-primary">
+                                                Agregar
+                                            </button>
                                             <input type="hidden" name="action" value="add_product">
+                                            <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
                                         </form>
                                     </div>
                                     <div class="modal-footer">
@@ -184,6 +187,7 @@ $brands= $brand->getBrands();
                                                 <form method="POST" id="deleteProductForm" action="app/ProductsController.php">
                                                                     <input type="hidden" name="action" value="delete_product">
                                                                     <input type="hidden" name="id_product" value="update_product" id="delete_id_product">
+                                                                    <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
                                                 </form>
                                                 <button type="button" class="btn btn-warning" data-bs-toggle="modal"
                                                     data-bs-target="#editProductModal<?php echo $product->id; ?>">
@@ -217,6 +221,7 @@ $brands= $brand->getBrands();
                                                                     </div>
                                                                     <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                                                                     <input type="hidden" name="action" value="update_product">
+                                                                    <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
                                                                 </form>
                                                             </div>
                                                             <div class="modal-footer">
